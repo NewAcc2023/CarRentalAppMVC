@@ -1,0 +1,185 @@
+﻿@model CarRentalAppMVC.Models.AddCarModel
+
+<div class="container">
+	<form method="post" asp-action="AddCar" asp-controller="Admin" enctype="multipart/form-data">
+		<div class="row">
+			<div class="col-6">
+				<div>
+					<div>
+						<label>Image:</label>
+					</div>
+					<img id="PreviewImage" style="display: none; max-width: 100%; height: 400px;">
+					<input type="file" id="image" name="image" class="w-100 bg-light text-dark" required accept=".png,.jpg,.jpeg" />
+				</div>
+			</div>
+			<div class="col-6">
+				@*add brand*@
+				<div class="row">
+					<label>Brand:</label>
+					<div class="col-12">
+						<div class="form-group">
+							<select class="form-select border border-secondary" id="exampleSelect1" onchange="updateInputValue(this, 'Brand')">
+								<option value=""></option>
+								@foreach (var item in Model.Brands)
+								{
+									<option value="@item.Id">@item.BrandName</option>
+								}
+							</select>
+						</div>
+					</div>
+					<div class="col-12">
+						<input type="text" hidden class="w-100" id="Brand" required name="BrandId">
+					</div>
+				</div>
+				@*add name*@
+				<div class="row">
+					<div>
+						<label>ModelName:</label>
+					</div>
+					<input type="text" class="w-100" required name="ModelName">
+				</div>
+				@*add gearbox*@
+				<div class="row">
+					<label>GearBox:</label>
+					<div class="col-12">
+						<div class="form-group">
+							<select class="form-select border border-secondary" id="exampleSelect1" onchange="updateInputValue(this, 'GearBox')">
+								<option value=""></option>
+								@foreach (var item in Model.GearBoxes)
+								{
+									<option value="@item.Id">@item.GearBoxName</option>
+								}
+							</select>
+						</div>
+					</div>
+					<div class="col-12">
+						<input type="text"  hidden  class="w-100" id="GearBox" required name="GearBoxId">
+					</div>
+				</div>
+				@*add enginetype*@
+				<div class="row">
+					<label>EngineType:</label>
+					<div class="col-12">
+						<div class="form-group">
+							<select class="form-select border border-secondary" id="exampleSelect1" onchange="updateInputValue(this, 'EngineType')">
+								<option value=""></option>
+								@foreach (var item in Model.EngineTypes)
+								{
+									<option value="@item.Id">@item.EngineTypeName</option>
+								}
+							</select>
+						</div>
+					</div>
+					<div class="col-9">
+						<input type="text" hidden  id="EngineType" required name="EngineTypeId">
+					</div>
+				</div>
+				@*add doors*@
+				<div class="row">
+					<div>
+						<label>Doors:</label>
+					</div>
+					<input type="number" class="w-100" required name="Doors">
+				</div>
+				@*add seats*@
+				<div class="row">
+					<div>
+						<label>Seats:</label>
+					</div>
+					<input type="number" class="w-100" required name="Seats">
+				</div>
+				@*add price*@
+				<div class="row">
+					<div>
+						<label>Price:</label>
+					</div>
+					<input type="number" class="w-100" required name="Price">
+				</div>
+				@*add year*@
+				<div class="row">
+					<div>
+						<label>Year:</label>
+					</div>
+					<input type="number" class="w-100" required name="Year">
+				</div>
+				@*add engine capacity*@
+				<div class="row">
+					<div>
+						<label>Engine Capacity:</label>
+					</div>
+					<input type="number" class="w-100" required name="EngineCapacity">
+				</div>
+				@*add description*@
+				<div class="row">
+					<div>
+						<label>Description:</label>
+					</div>
+					<textarea cols="20" rows="5" name="Description"></textarea>
+				</div>
+				@*add carbodytype*@
+				<div class="row">
+					<label>CarBodyType:</label>
+					<div class="col-12">
+						<div class="form-group">
+							<select class="form-select border border-secondary" id="exampleSelect1" onchange="updateInputValue(this, 'CarBodyType')">
+								<option value=""></option>
+								@foreach (var item in Model.CarBodyTypes)
+								{
+									<option value="@item.Id">@item.CarBodyTypeName</option>
+								}
+							</select>
+						</div>
+					</div>
+					<div class="col-9">
+						<input type="text" hidden class="w-50" id="CarBodyType" required name="CarBodyTypeId">
+					</div>
+				</div>
+
+				@*add drivetype*@
+				<div class="row">
+					<label>DriveType:</label>
+					<div class="col-12">
+						<div class="form-group">
+							<select class="form-select border border-secondary" id="exampleSelect1" onchange="updateInputValue(this, 'DriveType')">
+								<option value=""></option>
+								@foreach (var item in Model.DriveTypes)
+								{
+									<option value="@item.Id">@item.DriveTypeName</option>
+								}
+							</select>
+						</div>
+					</div>
+					<div class="col-9">
+						<input type="text" hidden class="w-50" id="DriveType" required name="DriveTypeId">
+					</div>
+				</div>
+
+			</div>
+			<button class="btn btn-warning p-1 mt-2" type="submit">Add Car</button>
+		</div>
+	</form>
+</div>
+
+<script>
+	function updateInputValue(selectElement, inputId) {
+		var inputElement = document.getElementById(inputId);
+		var selectedOption = selectElement.options[selectElement.selectedIndex];
+		inputElement.value = selectedOption.value;
+	}
+
+	var imageUpload = document.getElementById('image');
+	var previewImage = document.getElementById('PreviewImage');
+
+	imageUpload.addEventListener('change', function (event) {
+		var file = event.target.files[0];
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			previewImage.src = e.target.result;
+			previewImage.style.display = 'block';
+		};
+
+		reader.readAsDataURL(file);
+	});
+</script>
+

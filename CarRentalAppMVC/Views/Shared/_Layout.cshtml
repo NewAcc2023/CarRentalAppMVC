@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - CarRentalAppMVC</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/CarRentalAppMVC.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-utilities.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-reboot.css" asp-append-version="true" />
+
+
+</head>
+<body>
+
+	<header>
+		<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">Car Rentals</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarColor01">
+					<ul class="navbar-nav me-auto text-decoration-none">
+						<li class="nav-item">
+							<a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-action="AllCars" asp-controller="Home">Cars</a>
+						</li>
+						@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+						{
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Admin" asp-action="EditRoom">EditRoom</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Account" asp-action="PersonalCabinet">PersonalCabinet</a>
+							</li>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" asp-action="EditBrands" asp-controller="Admin">Edit Brands</a>
+									<a class="dropdown-item" asp-action="EditCarBodyTypes" asp-controller="Admin">Edit Car Types</a>
+									<a class="dropdown-item" asp-action="EditDriveTypes" asp-controller="Admin">Edit Drive Types</a>
+									<a class="dropdown-item" asp-action="EditGearBoxes" asp-controller="Admin">Edit GearBoxes</a>
+									<a class="dropdown-item" asp-action="EditEngineTypes" asp-controller="Admin">Edit EngineTypes</a>
+
+
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" asp-action="AddCar" asp-controller="Admin">Add Car</a>
+									<a class="dropdown-item" asp-action="ManageOrders" asp-controller="Admin">Manage Orders</a>
+								</div>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+							</li>
+						}
+						else if (User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Account" asp-action="PersonalCabinet">PersonalCabinet</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+							</li>
+						}
+						else
+						{
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+							</li>
+						}
+					</ul>
+					<div class="d-flex">
+						<input id="searchInput" class="form-control" type="search" placeholder="Search">
+						<button class="btn btn-secondary">Search</button>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div class="row position-absolute w-100 text-center z-2">
+			<div id="carList"></div>
+		</div>
+	</header>
+	<main role="main" class="pb-3">
+		@RenderBody()
+	</main>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,14 @@
+﻿<div class="container">
+	<div>
+		<h2 class="h3">
+			YOUR ORDER WAS MADE!😄<br />We will call you right away!
+		</h2>
+	</div>
+	<div>
+		<a class="btn btn-primary fw-bold" asp-action="PersonalCabinet" asp-controller="Account">Go to Personal Cabinet</a>
+	</div>
+	@if (TempData["message"] != null)
+	{
+		<div class="text-danger h4 fw-bold">Note that @TempData["message"]</div>
+	}
+</div>

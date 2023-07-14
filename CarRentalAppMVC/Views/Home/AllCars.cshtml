@@ -1,0 +1,181 @@
+﻿@model CarRentalAppMVC.Models.AllCarsModel
+@{
+	List<string> gearBoxes = (List<string>)ViewBag.selectedGearBoxes;
+	List<string> engineTypes = (List<string>)ViewBag.selectedEngineTypes;
+	List<string> brands = (List<string>)ViewBag.selectedBrands;
+	string sorting = ViewBag.sorting;
+
+}
+<div class="container">
+	<div class="row mt-2">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-2 mt-4">
+			<form action="/Home/AllCars">
+				<div class="form-group text-center bg-success-subtle mt-3">
+					<label class="fw-bold">Gear Boxes</label>
+					@foreach (var item in Model.GearBoxes)
+					{
+						@if (gearBoxes.Contains(item.GearBoxName))
+						{
+							<div class="form-check">
+								<input class="form-check-input border-dark mx-0" type="checkbox" value="@item.GearBoxName" id="flexCheckDefault" name="selectedGearBoxes" checked="checked">
+								<label class="form-check-label" for="flexCheckDefault">
+									@item.GearBoxName
+								</label>
+							</div>
+						}
+						else
+						{
+							<div class="form-check">
+								<input class="form-check-input border-dark mx-0" type="checkbox" value="@item.GearBoxName" id="flexCheckDefault" name="selectedGearBoxes">
+								<label class="form-check-label" for="flexCheckDefault">
+									@item.GearBoxName
+								</label>
+							</div>
+						}
+						<input hidden type="checkbox" value=@TempData["Sorted"] id="flexCheckDefault" name="sorting">
+					}
+				</div>
+				<div class="form-group text-center bg-success-subtle mt-3">
+					<label class="fw-bold">Engine Types</label>
+					@foreach (var item in Model.EngineTypes)
+					{
+						if (engineTypes.Contains(item.EngineTypeName))
+						{
+							<div class="form-check">
+								<input class="form-check-input border-dark mx-0" type="checkbox" value="@item.EngineTypeName" id="flexCheckDefault" name="selectedEngineTypes" checked="checked">
+								<label class="form-check-label" for="flexCheckDefault">
+									@item.EngineTypeName
+								</label>
+							</div>
+						}
+						else
+						{
+							<div class="form-check">
+								<input class="form-check-input border-dark mx-0" type="checkbox" value="@item.EngineTypeName" id="flexCheckDefault" name="selectedEngineTypes">
+								<label class="form-check-label" for="flexCheckDefault">
+									@item.EngineTypeName
+								</label>
+							</div>
+						}
+					}
+				</div>
+
+				<div class="form-group text-center bg-success-subtle mt-3">
+					<label class="fw-bold">Brands</label>
+					@foreach (var item in Model.Brands)
+					{
+						if (brands.Contains(item.BrandName))
+						{
+							<div class="form-check">
+								<input class="form-check-input border-dark mx-0" type="checkbox" value="@item.BrandName" id="flexCheckDefault" name="selectedBrands" checked="checked">
+								<label class="form-check-label" for="flexCheckDefault">
+									@item.BrandName
+								</label>
+							</div>
+						}
+						else
+						{
+							<div class="form-check">
+								<input class="form-check-input border-dark mx-0" type="checkbox" value="@item.BrandName" id="flexCheckDefault" name="selectedBrands">
+								<label class="form-check-label" for="flexCheckDefault">
+									@item.BrandName
+								</label>
+							</div>
+						}
+					}
+				</div>
+				<div class="text-center mt-3">
+					<button class="btn btn-primary" type="submit">Apply Filters</button>
+				</div>
+
+				<div class="fw-bold text-center">Sort</div>
+				@if (sorting == "cheapest")
+				{
+					<div class="text-center mt-2">
+						<button class="btn btn-primary" type="submit" value="" name="sorting">Cheapest</button>
+					</div>
+				}
+				else
+				{
+					<div class="text-center mt-2">
+						<button class="btn btn-secondary" type="submit" value="cheapest" name="sorting">Cheapest</button>
+					</div>
+				}
+				@if (sorting == "expensive")
+				{
+					<div class="text-center mt-2">
+						<button class="btn btn-primary" type="submit" value="" name="sorting">Expensive</button>
+					</div>
+				}
+				else
+				{
+					<div class="text-center mt-2">
+						<button class="btn btn-secondary" type="submit" value="expensive" name="sorting">Expensive</button>
+					</div>
+				}
+				@if (sorting == "newest")
+				{
+					<div class="text-center mt-2">
+						<button class="btn btn-primary" type="submit" value="" name="sorting">Newest Cars</button>
+					</div>
+				}
+				else
+				{
+					<div class="text-center mt-2">
+						<button class="btn btn-secondary" type="submit" value="newest" name="sorting">Newest Cars</button>
+					</div>
+				}
+			</form>
+		</div>
+
+		<div class="col" id="carBlocksContainer">
+			@foreach (var item in Model.Cars)
+			{
+				<div class="container mt-4">
+					<div class="row">
+						<div class="col">
+							<div class="card">
+								<div class="card-title mt-2">
+									<!-- Title on the top center -->
+									<h4 class="card-title text-center h4 p-0 fw-bold">@item.Brand.BrandName @item.ModelName</h4>
+								</div>
+								<div class="row g-1">
+									<div class="col-lg-3" data-price="@item.Price">
+										<!-- Image on the left -->
+										<img src="/Images/@item.ImagePath" class="img-fluid rounded box-shadow mx-0 mx-sm-0 mx-md-0 mx-lg-3 shadow-lg m-3 align-self-center" alt="Product Image">
+									</div>
+									<div class="col-lg-6 text-start h5 p-3">
+										<div class="">
+											<div class="row m-1">
+												<div class="col">
+													<div>Gear Box: @item.GearBox.GearBoxName </div>
+													<div>Engine Type: @item.EngineType.EngineTypeName  </div>
+													<div>Engine Capacity: @item.EngineCapacity </div>
+													<div>Year: @item.Year </div>
+												</div>
+												<div class="col">
+													<div>Drive Type: @item.DriveType.DriveTypeName </div>
+													<div>Seats: @item.Seats  </div>
+													<div>Doors: @item.Doors  </div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-3">
+										<!-- Price on the right -->
+										<div class="card-body d-flex flex-column h-100">
+											<div class="mt-auto h5 text-secondary h4 text-center">Starting price</div>
+											<div class="text-center h3 fs-bold">@item.Price $</div>
+											<a class="btn btn-success text-center p-1 m-3 fs-5 align-self-end" asp-action="CarInfo" asp-controller="Order" asp-route-carId="@item.Id">Go To Order Page</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,76 @@
+﻿@model CarRentalAppMVC.Models.RentOrdersPaginationModel
+
+<div class="container">
+	<div class="row h4">
+		<h4>All rent orders</h4>
+		@foreach (var item in Model.RentOrders)
+		{
+			<div class="row  border border-dark mt-2 bg-secondary-subtle rounded-3">
+				<div class="col-8">
+					<h3>Id @item.Id</h3>
+					<div>Car brand: @Model.Cars.First(x=>x.Id == item.CarId).Brand.BrandName</div>
+					<div>Car model: @item.Car.ModelName </div>
+					<div>Order Placed At: @item.OrderCreationDatetime </div>
+					<div>Recieve Car: @item.RecieveDatetime  </div>
+					<div>Return Car: @item.ReturnDatetime </div>
+					<div>Status: @Model.Statuses.FirstOrDefault(x=>x.Id == item.StatusId).StatusName</div>
+					<div>Users Email: @Model.Users.FirstOrDefault(x=>x.Id == item.UserId).Email</div>
+				</div>
+				<div class="col-4 text-end mt-2">
+					<a asp-action="SetActive" asp-controller="Order" asp-route-id=@item.Id asp-route-page=@Model.CurrentPage class="btn btn-warning fw-bold">SET ACTIVE</a>
+					<a asp-action="Finish" asp-controller="Order" asp-route-id=@item.Id asp-route-page=@Model.CurrentPage class="btn btn-success fw-bold">FINISH</a>
+					<a asp-action="Cancel" asp-controller="Order" asp-route-id=@item.Id asp-route-page=@Model.CurrentPage class="btn btn-danger fw-bold">CANCEL</a>
+				</div>
+			</div>
+		}
+	</div>
+	<div class="h3">
+		@if (Model.CurrentPage == 1)
+		{
+			<div>
+				<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(1) class="btn btn-primary">@(1) </a>
+
+				...
+				@if (Model.CurrentPage - 1 > 1)
+				{
+					<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(Model.CurrentPage - 1) class="btn btn-primary">@(Model.CurrentPage - 1) </a>
+				}
+				<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(Model.CurrentPage ) class="btn btn-primary">@(Model.CurrentPage) </a>
+				@if (Model.CurrentPage + 1 <= Model.TotalPages)
+				{
+					<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(Model.CurrentPage + 1) class="btn btn-primary">@(Model.CurrentPage + 1) </a>
+				}
+				...
+				@if (Model.TotalPages > 0)
+				{
+					<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(Model.TotalPages ) class="btn btn-primary">@(Model.TotalPages) </a>
+
+				}
+			</div>
+		}
+		else
+		{
+			<div>
+				<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(1) class="btn btn-primary">@(1) </a>
+
+				...
+				<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(Model.CurrentPage - 1) class="btn btn-primary">@(Model.CurrentPage - 1) </a>
+				<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(Model.CurrentPage ) class="btn btn-primary">@(Model.CurrentPage) </a>
+				@if (Model.CurrentPage + 1 <= Model.TotalPages)
+				{
+					<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(Model.CurrentPage + 1) class="btn btn-primary">@(Model.CurrentPage + 1) </a>
+				}
+
+				...
+				@if (Model.TotalPages > 0)
+				{
+					<a asp-action="ManageOrders" asp-controller="Admin" asp-route-page=@(Model.TotalPages ) class="btn btn-primary">@(Model.TotalPages) </a>
+
+				}
+			</div>
+		}
+
+
+	</div>
+
+</div>

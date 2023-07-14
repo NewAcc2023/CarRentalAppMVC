@@ -1,0 +1,77 @@
+﻿@model List<RentedCarModel>
+<div class="container">
+	@if (TempData["WrongPhoneNumber"] != null)
+	{
+		<h2 class="text-danger">@TempData["WrongPhoneNumber"]</h2>
+	}
+	@if (TempData["AddedPhoneNumber"] != null)
+	{
+		<h2 class="text-success">@TempData["AddedPhoneNumber"]</h2>
+	}
+	@if (!User.IsInRole("Customer"))
+	{
+		<h1 class="text-center"> 🚗 Enter your phone number to start renting cars 🚗 </h1>
+		<h2>For example 079...</h2>
+		<form method="post" asp-action="AddPhoneNumber" class="input-group" asp-controller="Account">
+			<input name="phoneNumber" required class="input fs-5 col-12 col-sm-12 col-md-6 col-lg-6">
+			<input type="submit" class="btn btn-dark col-12 col-sm-12 col-md-6 col-lg-6" value="Add Number">
+		</form>
+	}
+	else
+	{
+		if (Model != null && Model.Count > 0)
+		{
+			<h2 class="text-center">Rented Cars </h2>
+			@foreach (var item in Model)
+			{
+				<div class="container mt-4 ">
+					<div class="row">
+						<div class="col">
+							<div class="card">
+								<div class="card-title mt-2">
+									<!-- Title on the top center -->
+									<h4 class="card-title text-center h4 p-0 fw-bold">@item.Brand @item.Model</h4>
+								</div>
+								<div class="row g-1">
+									<div class="col-lg-3">
+										<!-- Image on the left -->
+										<img src="/Images/@item.ImagePath" class="img-fluid rounded box-shadow mx-0 mx-sm-0 mx-md-0 mx-lg-3 shadow-lg m-3 align-self-center" alt="Product Image">
+									</div>
+									<div class="col-lg-6 text-start h5 p-3">
+										<div class="">
+											<div class="row m-1">
+												<div class="col-8">
+													<div>Order Placed At: @item.OrderCreationDatetime </div>
+													<div>Recieve Car: @item.RecieveDatetime  </div>
+													<div>Return Car: @item.ReturnDatetime </div>
+												</div>
+												<div class="col">
+													<div>Year: @item.Year</div>
+													<div>Seats: @item.Seats  </div>
+													<div>Doors: @item.Doors  </div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-3">
+										<!-- Price on the right -->
+										<div class="card-body d-flex flex-column h-100">
+											<div class="mt-auto h5 text-secondary h4 text-center">Total For Rent</div>
+											<div class="text-center h3 fs-bold mb-5">@item.TotalPrice $</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		}
+		else
+		{
+			<h4>you have no rented cars </h4>
+		}
+
+	}
+</div>
+

@@ -1,0 +1,43 @@
+﻿@model List<CarRentalAppMVC.Models.IndexModel>
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+<!-- Jumbotron -->
+<div class="bg-image p-5 shadow-1-strong mb-5 text-primary text-start"
+	 style="background-image: url('https://wallpaperaccess.com/full/106012.jpg'); background-repeat:no-repeat; background-size:cover;">
+
+	<div class="col-md-5" style="margin-bottom:340px;">
+		<h1 class="mb-3 h2" style="margin-top:30px;">CAR RENTALS</h1>
+		<h4 class="mb-3 h2 fst-italic">Any car at any time</h4>
+		<p class="fs-4">
+			Here you can rent a car for any case you can imagine - family trip, personal use, or any other reason you would like to have a car.
+		</p>
+		<a class="btn btn-dark btn-lg" asp-action="AllCars" asp-controller="Home"> View All Cars</a>
+	</div>
+</div>
+<!-- Jumbotron -->
+<h1 class="text-center">Recommended for you!</h1>
+<div class="customContainer align-items-center">
+	<div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+		@foreach (var item in Model)
+		{
+			<div class="col mb-4 mt-4">
+				<div class="card border-secondary h-100">
+					<a class="text-decoration-none text-black" asp-action="CarInfo" asp-controller="Order" asp-route-carId="@item.Id">
+						<div class="rounded-3" style="height:320px; background-image:url('/Images/@item.ImagePath'); background-size:cover; background-position:center;">
+						</div>
+
+						<div class="card-body">
+							<h2 class="card-title h5">@item.Brand @item.Model</h2>
+							<h2 class="text-end h5">Starting Price @item.StartPrice$</h2>
+						</div>
+					</a>
+					<div class="border-top bg-secondary-subtle rounded-3">
+						<a class="btn btn-success text-center p-1 m-3 fs-5 align-self-end" asp-action="CarInfo" asp-controller="Order" asp-route-carId="@item.Id" >Go To Order Page</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
